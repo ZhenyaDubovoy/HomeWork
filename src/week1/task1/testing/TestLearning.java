@@ -17,6 +17,8 @@ public class TestLearning {
         testDeletingLastSubject();
         testPassingExam();
         testMiddleRate();
+        testGettingStudentsMark();
+        testShowingInfoAboutStudsSubs();
     }
 
     private static void testAddingSubject() {
@@ -30,10 +32,45 @@ public class TestLearning {
         return;
     }
 
+    private static void testShowingInfoAboutStudsSubs(){
+        Student student1 = new Student("Petro", Utils.generateAdress());
+
+        Subject oop = new Subject("OOP", 25);
+        Subject math1 = new Subject("Algebra", 20);
+
+        student1.addSubject(oop);
+        student1.addSubject(math1);
+
+        student1.learn(oop, 25);
+        student1.learn(math1, 10);
+
+        oop.passTheExam(student1, 5);
+
+        System.out.println("Test showing information about students :\n");
+        student1.showAllSubjects();
+    }
+
+    private static void testGettingStudentsMark (){
+
+        Student student1 = new Student("Petro", Utils.generateAdress());
+
+        Subject oop = new Subject("OOP", 25);
+        Subject math1 = new Subject("Algebra", 20);
+        Subject math2 = new Subject("Geometry", 15);
+
+        student1.addSubject(oop);
+        student1.addSubject(math1);
+
+        student1.learn(oop, 25);
+        oop.passTheExam(student1, 4);
+
+        System.out.printf("Test getting students rate: %s\n", oop.getStudentRate(student1)==4 &&
+                math1.getStudentRate(student1)==-1 && math2.getStudentRate(student1)==0);
+    }
 
 
-    private static void testStudentLearn()
-    {
+    private static void testStudentLearn() {
+
         Student student = new Student("Ivan", Utils.generateAdress());
         Subject math2 = new Subject("Geometry", 15);
 
@@ -48,8 +85,8 @@ public class TestLearning {
         System.out.printf("Test students learning method: %s\n", math2.getStudensWorkedHours()[0]==5 && math2.getStudensWorkedHours()[1]==3);
     }
 
-    private static void testDeletingLastSubject()
-    {
+    private static void testDeletingLastSubject() {
+
         Student student = new Student("Petro", Utils.generateAdress());
 
         Subject oop = new Subject("OOP", 25);
@@ -72,8 +109,8 @@ public class TestLearning {
                 && subsAfter[2] == null && numOfSubsBefore==3 && numOfSubsAfter==2);
     }
 
-    private static void testPassingExam()
-    {
+    private static void testPassingExam() {
+
         Student student = new Student("Petro", Utils.generateAdress());
         Student student2 = new Student("Denis", Utils.generateAdress());
         Student student3 = new Student("Evgen", Utils.generateAdress());
@@ -105,8 +142,8 @@ public class TestLearning {
         System.out.printf("Test deleting from enrolled after passing exam : %s\n", enrolledBefore ==3 && enrolledAfter == 1);
     }
 
-    public static void testMiddleRate()
-    {
+    public static void testMiddleRate() {
+
         Student student = new Student("Petro", Utils.generateAdress());
 
         Subject oop = new Subject("OOP", 25);
@@ -127,7 +164,7 @@ public class TestLearning {
 
         double petroMidRate = student.getMiddleRate();
 
-        System.out.printf("Middle rate must be 3.66: %.2f", student.getMiddleRate());
+        System.out.printf("Middle rate must be 3.66: %.2f\n", petroMidRate);
     }
 
 }

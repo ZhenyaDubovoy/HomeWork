@@ -25,21 +25,16 @@ public class Student {
         return numberOfSubjects;
     }
 
-    public void learn(Subject subject, int hours)
-    {
+    public void learn(Subject subject, int hours) {
         subject.studentLearning(this, hours);
         return;
     }
 
-    public boolean addSubject(Subject subject)
-    {
-        if(subject == null)
-        {
+    public boolean addSubject(Subject subject) {
+        if (subject == null) {
             return false;
-        }
-        else
-        {
-            subjects[numberOfSubjects]=subject;
+        } else {
+            subjects[numberOfSubjects] = subject;
             numberOfSubjects++;
             subject.enrollStudent(this);
             return true;
@@ -47,34 +42,45 @@ public class Student {
 
     }
 
-    public void deleteLastSubject()
-    {
-        subjects[numberOfSubjects-1] = null;
+    public void deleteLastSubject() {
+        subjects[numberOfSubjects - 1] = null;
         numberOfSubjects--;
         return;
     }
 
     public void showAllSubjects() {
 
-        if(numberOfSubjects == 0){
+        if (numberOfSubjects == 0) {
             return;
         }
-        for (Subject subject:subjects
-             ) {if(subject == null){
-            return;
-        }
-            subject.showSubjInfo();
+        for (int i = 0; i < numberOfSubjects; i++) {
+            for (int j = 0; j < subjects[i].getCountPassed(); j++) {
+                if (this==subjects[i].getStudentsWhoPassed()[j]){
+                    System.out.printf("Subject %s passed with mark %d\n", subjects[i].getName(), subjects[i].getStudentRate(this));
+                }
+            }
+            for (int j = 0; j <subjects[i].getCountEnrolled() ; j++) {
+                if (this == subjects[i].getStudentsInWork()[j]){
+                    System.out.printf("Subject %s is still at work, worked hours %d / %d\n", subjects[i].getName(),
+                            subjects[i].getStudensWorkedHours()[j], subjects[i].getHoursDuringSemestr());
+                }
+            }
         }
         return;
     }
 
-    public double getMiddleRate(){
+    public double getMiddleRate() {
         double total = 0;
+        int count = numberOfSubjects;
 
-        for (int i=0; i<numberOfSubjects; i++){
-            total += subjects[i].getStudentRate(this);
+        for (int i = 0; i < numberOfSubjects; i++) {
+            if (subjects[i].getStudentRate(this) == -1) {
+                count--; //student is now enrolled, do not have mark
+            } else {
+                total += subjects[i].getStudentRate(this);
+            }
         }
 
-        return total/numberOfSubjects;
+        return total / count;
     }
 }
